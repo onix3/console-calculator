@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/jroimartin/gocui"
+	"time"
 )
 
 func keyboardBinding(key rune) {
@@ -10,6 +11,17 @@ func keyboardBinding(key rune) {
 		func(g *gocui.Gui, v *gocui.View) error {
 			W,_ := g.Size()
 			if 2+len(displayS)+2 < W {
+				for _,v := range g.Views() {
+					if v.Name() == string(key) {
+						go func() {
+							v.BgColor = gocui.ColorGreen
+							time.Sleep(100*time.Millisecond)
+							v.BgColor = gocui.ColorBlack
+							g.Update(updateVD)
+						}()
+						break
+					}
+				}
 				displayS += string(key)
 				g.Update(updateVD)
 			} else {
