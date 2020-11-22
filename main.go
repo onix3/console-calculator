@@ -15,7 +15,6 @@ func log_err(err error) {
 }
 
 func main() {
-	//fmt.Printf("\a")
 	// init logging
 	var err error
 	if logFile,err = os.Open("errors.txt"); err != nil {

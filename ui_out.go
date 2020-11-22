@@ -18,5 +18,9 @@ func updateVD(g *gocui.Gui) error {
 
 	fmt.Fprintf(vd, "%" + strconv.Itoa(displayW) + "s", displayS)
 
+	//fmt.Fprintln(vd,"╔" + strings.Repeat("═",displayW-2) + "╗")
+	//fmt.Fprintf(vd, "║%" + strconv.Itoa(displayW) + "s║\n", displayS)
+	//fmt.Fprintln(vd,"╚" + strings.Repeat("═",displayW-2) + "╝")
+
 	return nil
 }
