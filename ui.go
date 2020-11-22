@@ -9,6 +9,8 @@ import (
 var (
 	g  *gocui.Gui
 	vd *gocui.View // windows of "calculator's display"
+	displayS string
+	displayW int // width of display
 )
 
 func go_ui() {
@@ -23,6 +25,8 @@ func go_ui() {
 
 	g.SetManagerFunc(layout)
 
+	initKeyboardBindings();
+
 	if err := g.MainLoop(); err != nil && err != gocui.ErrQuit {
 		log.Panicln(err)
 	}
@@ -31,8 +35,13 @@ func go_ui() {
 func layout(g *gocui.Gui) error {
 	//W,H := g.Size()
 
+	displayW = 17
+	if len(displayS) > 16 {
+		displayW = len(displayS)+1
+	}
+
 	var err error
-	vd,err = g.SetView("display", 0, 0, 19, 3)
+	vd,err = g.SetView("display", 0, 0, 1+displayW+1, 3)
 	if err != nil {
 		if err != gocui.ErrUnknownView {
 			log_err(err)

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/jroimartin/gocui"
+	"strconv"
 )
 
 
@@ -12,8 +13,10 @@ func colorStr(s string, c1, c2 int) string {
 }
 
 // update window with string
-func updateVS(g *gocui.Gui) error {
+func updateVD(g *gocui.Gui) error {
 	vd.Clear()
+
+	fmt.Fprintf(vd, "%" + strconv.Itoa(displayW) + "s", displayS)
 
 	return nil
 }
