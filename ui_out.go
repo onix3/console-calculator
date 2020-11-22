@@ -16,11 +16,11 @@ func colorStr(s string, c1, c2 int) string {
 func updateVD(g *gocui.Gui) error {
 	vd.Clear()
 
-	fmt.Fprintf(vd, "%" + strconv.Itoa(displayW) + "s", displayS)
+	fmt.Fprintf(vd, "%" + strconv.Itoa(dW) + "s", dS)
 
-	//fmt.Fprintln(vd,"╔" + strings.Repeat("═",displayW-2) + "╗")
-	//fmt.Fprintf(vd, "║%" + strconv.Itoa(displayW) + "s║\n", displayS)
-	//fmt.Fprintln(vd,"╚" + strings.Repeat("═",displayW-2) + "╝")
+	//fmt.Fprintln(vd,"╔" + strings.Repeat("═",dW-2) + "╗")
+	//fmt.Fprintf(vd, "║%" + strconv.Itoa(dW) + "s║\n", dS)
+	//fmt.Fprintln(vd,"╚" + strings.Repeat("═",dW-2) + "╝")
 
 	return nil
 }

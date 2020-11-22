@@ -9,8 +9,8 @@ import (
 var (
 	g  *gocui.Gui
 	vd *gocui.View // windows of "calculator's display"
-	displayS string
-	displayW int // width of display
+	dS string      // display string
+	dW int         // width of display
 )
 
 func go_ui() {
@@ -74,14 +74,14 @@ func go_ui() {
 func layout(g *gocui.Gui) error {
 	//W,H := g.Size()
 
-	displayW = 17
-	if len(displayS) > 16 {
-		displayW = len(displayS)+1
+	dW = 17
+	if len(dS) > 16 {
+		dW = len(dS)+1
 	}
 
 	var err error
 	// границы дисплея расширены, чтобы я мог сам вывести не одинарные, а двойные линии
-	vd,err = g.SetView("display", 0, 0, 1+displayW+1, 3)
+	vd,err = g.SetView("display", 0, 0, 1+dW+1, 3)
 	if err != nil {
 		if err != gocui.ErrUnknownView {
 			log_err(err)

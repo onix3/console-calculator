@@ -22,8 +22,8 @@ func initKeyboardBindings() {
 
 	if err := g.SetKeybinding("", gocui.KeyBackspace, gocui.ModNone,
 		func(g *gocui.Gui, v *gocui.View) error {
-			if len(displayS) > 0 {
-				displayS = displayS[:len(displayS)-1]
+			if len(dS) > 0 {
+				dS = dS[:len(dS)-1]
 			}
 			g.Update(updateVD)
 			return nil
