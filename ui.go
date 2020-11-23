@@ -7,10 +7,10 @@ import (
 )
 
 var (
-	g     *gocui.Gui
-	vd    *gocui.View // windows of "calculator's display"
-	dE,dR string      // display expression, display result
-	dW    int         // current width of display
+	g  *gocui.Gui
+	vd *gocui.View // windows of "calculator's display"
+	dE string      // display expression
+	dW int         // current width of display
 )
 
 func go_ui() {

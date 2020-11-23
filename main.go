@@ -29,15 +29,10 @@ func main() {
 	}
 	defer logFile.Close()
 
+	// TODO:
 	for i:=0 ; i<17; i++ {
 		fmt.Println()
 	}
-
-	// go_ui() launches infinite cycle that's
-	// it↓ should launch in goroutine before
-	go func() {
-
-	}()
 
 	// launch console user interface
 	go_ui()

@@ -26,9 +26,8 @@ func initKeyboardBindings() {
 		func(g *gocui.Gui, v *gocui.View) error {
 			if len(dE) > 0 {
 				dE = dE[:len(dE)-1]
-				dR = compute()
+				g.Update(updateVD)
 			}
-			g.Update(updateVD)
 			return nil
 		});
 		err != nil {

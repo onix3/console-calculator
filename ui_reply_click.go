@@ -10,7 +10,6 @@ func replyKey(g *gocui.Gui, key rune) {
 	highlight(key)
 	if 2+len(dE)+2 < W && isValid(key) {
 		dE += string(key)
-		dR = compute()
 		g.Update(updateVD)
 	} else {
 		highlight_error()
