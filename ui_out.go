@@ -16,10 +16,12 @@ func colorStr(s string, c1, c2 int) string {
 func updateVD(g *gocui.Gui) error {
 	vd.Clear()
 
-	fmt.Fprintf(vd, "%" + strconv.Itoa(dW) + "s", dS)
-
+	fmt.Fprintf(vd, "%" + strconv.Itoa(dW) + "s\n", dE)
+	//res = colorStr(res,2,1)
+	//fmt.Println("len = ", len(res))
+	fmt.Fprintf(vd, "%" + strconv.Itoa(dW) + "s", dR)
 	//fmt.Fprintln(vd,"╔" + strings.Repeat("═",dW-2) + "╗")
-	//fmt.Fprintf(vd, "║%" + strconv.Itoa(dW) + "s║\n", dS)
+	//fmt.Fprintf(vd, "║%" + strconv.Itoa(dW) + "s║\n", dE)
 	//fmt.Fprintln(vd,"╚" + strings.Repeat("═",dW-2) + "╝")
 
 	return nil

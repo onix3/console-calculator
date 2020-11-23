@@ -7,10 +7,10 @@ import (
 )
 
 var (
-	g  *gocui.Gui
-	vd *gocui.View // windows of "calculator's display"
-	dS string      // display string
-	dW int         // width of display
+	g     *gocui.Gui
+	vd    *gocui.View // windows of "calculator's display"
+	dE,dR string      // display expression, display result
+	dW    int         // current width of display
 )
 
 func go_ui() {
@@ -42,20 +42,15 @@ func go_ui() {
 	}
 
 	y := 4 // номер ряда по вертикали, с которого начинается панель кнопок
-	butt("7",0, y);   butt("8",5, y);   butt("9",10, y);   butt("/",15, y)
-	butt("4",0, y+3); butt("5",5, y+3); butt("6",10, y+3); butt("*",15, y+3)
-	butt("1",0, y+6); butt("2",5, y+6); butt("3",10, y+6); butt("-",15, y+6)
-	butt("0",0, y+9); butt("+",15, y+9)
-
-	//butt("7",0, y);   butt("8",5, y);   butt("9",10, y);   butt("/",15, y)
-	//butt("4",0, y+3); butt("5",5, y+3); butt("6",10, y+3); butt("*",15, y+3)
-	//butt("1",0, y+6); butt("2",5, y+6); butt("3",10, y+6); butt("-",15, y+6)
-	//butt("0",0, y+9); butt("+",15, y+9)
+	butt("7",0, y);   butt("8",5, y);    butt("9",10, y);   butt("/",15, y)
+	butt("4",0, y+3); butt("5",5, y+3);  butt("6",10, y+3); butt("*",15, y+3)
+	butt("1",0, y+6); butt("2",5, y+6);  butt("3",10, y+6); butt("-",15, y+6)
+	butt("0",0, y+9); butt(".",10, y+9); butt("+",15, y+9)
 
 	for _,v := range g.Views() {
 		s := "┌───┐\n│ " + v.Name() + " │\n└───┘"
 		if v.Name() == "0" {
-			s = "┌─────────────┐\n│      " + v.Name() + "      │\n└─────────────┘"
+			s = "┌────────┐\n│   " + v.Name() + "    │\n└────────┘"
 		}
 		_,err = fmt.Fprint(v,s)
 		if err != nil {
@@ -72,22 +67,18 @@ func go_ui() {
 }
 
 func layout(g *gocui.Gui) error {
-	//W,H := g.Size()
-
 	dW = 17
-	if len(dS) > 16 {
-		dW = len(dS)+1
+	if len(dE) > 16 {
+		dW = len(dE)+1
 	}
 
 	var err error
-	// границы дисплея расширены, чтобы я мог сам вывести не одинарные, а двойные линии
 	vd,err = g.SetView("display", 0, 0, 1+dW+1, 3)
 	if err != nil {
 		if err != gocui.ErrUnknownView {
 			log_err(err)
 		}
 	}
-	//vd.Frame = false
 
 	if _,err := g.SetCurrentView("display"); err != nil {
 		log_err(err)

@@ -7,6 +7,8 @@ import (
 func keyboardBinding(key rune) {
 	if err := g.SetKeybinding("", key, gocui.ModNone,
 		func(g *gocui.Gui, _ *gocui.View) error {
+			// при нажатии ',' вводить '.'
+			if key == ',' { key = '.' }
 			replyKey(g,key)
 			return nil
 		});
@@ -16,14 +18,15 @@ func keyboardBinding(key rune) {
 }
 
 func initKeyboardBindings() {
-	for _,c := range "789/456*123-0+" {
+	for _,c := range "789/456*123-0.+," {
 		keyboardBinding(c)
 	}
 
 	if err := g.SetKeybinding("", gocui.KeyBackspace, gocui.ModNone,
 		func(g *gocui.Gui, v *gocui.View) error {
-			if len(dS) > 0 {
-				dS = dS[:len(dS)-1]
+			if len(dE) > 0 {
+				dE = dE[:len(dE)-1]
+				dR = compute()
 			}
 			g.Update(updateVD)
 			return nil
