@@ -4,6 +4,7 @@ import (
 	"github.com/jroimartin/gocui"
 )
 
+// Привязка нажатия на клавиатуре
 func keyboardBinding(key rune) {
 	if err := g.SetKeybinding("", key, gocui.ModNone,
 		func(g *gocui.Gui, _ *gocui.View) error {
@@ -17,6 +18,7 @@ func keyboardBinding(key rune) {
 	}
 }
 
+// Привязка нажатий на клавиатуре
 func initKeyboardBindings() {
 	for _,c := range "789/456*123-0.+," {
 		keyboardBinding(c)

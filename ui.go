@@ -7,12 +7,14 @@ import (
 )
 
 var (
-	g  *gocui.Gui
-	vd *gocui.View // windows of "calculator's display"
-	dE string      // display expression
-	dW int         // current width of display
+	g     *gocui.Gui
+	vd    *gocui.View // окошко дисплея
+	sx,sy int         // startX, startY
+	dE    string      // выражение в дисплее
+	dW    int         // актуальная ширина дисплея
 )
 
+// Запустить интерфейс в консоли
 func go_ui() {
 	var err error
 	if g,err = gocui.NewGui(gocui.OutputNormal); err != nil {
@@ -32,8 +34,8 @@ func go_ui() {
 		if s == "0" {
 			x1 = 14
 		}
-		// стандартно нажатия мыши работают только внутри Frame
-		// Расширяю границы на 1, чтобы срабатывали и на рамке кнопок
+		// стандартно нажатия мыши работают только внутри рамки
+		// Расширяю границы на 1, чтобы срабатывали и на рамке
 		v,err := g.SetView(s, x0-1, y0-1, x1+1, y0+2+1)
 		if err != nil && err != gocui.ErrUnknownView{
 			log_err(err)
@@ -41,11 +43,12 @@ func go_ui() {
 		v.Frame = false
 	}
 
-	y := 4 // номер ряда по вертикали, с которого начинается панель кнопок
-	butt("7",0, y);   butt("8",5, y);    butt("9",10, y);   butt("/",15, y)
-	butt("4",0, y+3); butt("5",5, y+3);  butt("6",10, y+3); butt("*",15, y+3)
-	butt("1",0, y+6); butt("2",5, y+6);  butt("3",10, y+6); butt("-",15, y+6)
-	butt("0",0, y+9); butt(".",10, y+9); butt("+",15, y+9)
+	sx,sy = 3,2 // startX, startY
+	by := sy+4 // номер ряда по вертикали, с которого начинается панель кнопок
+	butt("7",sx+0, by);   butt("8",sx+5, by);    butt("9",sx+10, by);   butt("/",sx+15, by)
+	butt("4",sx+0, by+3); butt("5",sx+5, by+3);  butt("6",sx+10, by+3); butt("*",sx+15, by+3)
+	butt("1",sx+0, by+6); butt("2",sx+5, by+6);  butt("3",sx+10, by+6); butt("-",sx+15, by+6)
+	butt("0",sx+0, by+9); butt(".",sx+10, by+9); butt("+",sx+15, by+9)
 
 	for _,v := range g.Views() {
 		s := "┌───┐\n│ " + v.Name() + " │\n└───┘"
@@ -66,20 +69,23 @@ func go_ui() {
 	}
 }
 
+// Функция, вызываемая для перерисовки
 func layout(g *gocui.Gui) error {
 	dW = 17
 	if len(dE) > 16 {
 		dW = len(dE)+1
 	}
 
+	// display объявляется в layout, поскольку постоянно обновляется, в отличие от статичных кнопок
 	var err error
-	vd,err = g.SetView("display", 0, 0, 1+dW+1, 3)
+	vd,err = g.SetView("display", sx, sy, sx+1+dW+1, sy+3)
 	if err != nil {
 		if err != gocui.ErrUnknownView {
 			log_err(err)
 		}
 	}
 
+	// рамка становится цветной только когда view в фокусе. Рамка дисплея в фокусе
 	if _,err := g.SetCurrentView("display"); err != nil {
 		log_err(err)
 	}

@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// Подсветка кнопки при нажатии
 func highlight(key rune) {
 	for _,v := range g.Views() {
 		if v.Name() == string(key) {
@@ -19,6 +20,7 @@ func highlight(key rune) {
 	}
 }
 
+// Подсветка дисплея при недопустимом вводе
 func highlight_error() {
 	go func() {
 		vd.BgColor = gocui.ColorRed

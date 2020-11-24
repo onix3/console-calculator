@@ -6,12 +6,12 @@ import (
 	"strconv"
 )
 
-// сделать цветную строку
+// Сделать цветную строку
 func colorStr(s string, c1, c2 int) string {
 	return fmt.Sprintf("\033[3%d;%dm%s\033[0m", c1, c2, s)
 }
 
-// обновить инфо на дисплее
+// Обновить инфо на дисплее
 func updateVD(g *gocui.Gui) error {
 	vd.Clear()
 
@@ -29,8 +29,8 @@ func updateVD(g *gocui.Gui) error {
 	// длина цветной строки "1" составляет 12
 	// поэтому с каждым символом к ширине для выравнивания добавляю 11
 	fmt.Fprintf(vd, "%" + strconv.Itoa(dW+11*count) + "s\n", outE)
-	dR := compute() // display result
-	dR = colorStr(dR,2,1)
+	dR := compute()       // результат вычисления
+	dR = colorStr(dR,2,1) // стал зелёным
 	fmt.Fprintf(vd, "%" + strconv.Itoa(dW+11) + "s", dR)
 
 	return nil

@@ -10,18 +10,19 @@ var (
 	logFile   *os.File
 )
 
-// I like short code
+// Обработка ошибки
 func log_err(err error) {
 	_,err2 := fmt.Fprintf(logFile, "[%s]   %s\n",
 		time.Now().Format("2006.01.02 15:04:05"), err.Error())
 	if err2 != nil {
 		fmt.Println(err2)
 	}
-	//log.New(logFile, err.Error(), log.Ldate|log.Ltime|log.Lshortfile)
+	// звуковой сигнал
+	fmt.Printf("\a")
 }
 
 func main() {
-	// init logging
+	// логирование
 	var err error
 	logFile,err = os.OpenFile("errors.txt", os.O_APPEND, os.ModeAppend);
 	if err != nil {
@@ -29,11 +30,5 @@ func main() {
 	}
 	defer logFile.Close()
 
-	// TODO:
-	for i:=0 ; i<17; i++ {
-		fmt.Println()
-	}
-
-	// launch console user interface
 	go_ui()
 }
