@@ -12,6 +12,10 @@ func mouseBinding(key gocui.Key) {
 			if v.Name() != "display" && !strings.HasPrefix(v.Name(), "info") {
 				replyKey(g,rune(v.Name()[0]))
 			}
+			if v.Name() == "ac" {
+				dE = ""
+				g.Update(updateVD)
+			}
 			return nil
 		});
 		err != nil {

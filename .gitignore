@@ -15,5 +15,5 @@
 # vendor/
 
 .idea
-errors.txt
+*.txt
 ui_info.go

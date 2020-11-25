@@ -37,14 +37,20 @@ func isValid(key rune) bool {
 	// отклонить при попытке после "*0","/0","+0","-0", ввести цифру (после ".0" можно)
 	re5 := regexp.MustCompile(`[*/+-]0\d`)
 
+	// если в начале 0000021, то тоже не очень
+	re6 := regexp.MustCompile(`^00`)
+
 	// не допускать "0.0.", введение второй точки в дробное число
-	re6 := regexp.MustCompile(`\.\d+\.`)
+	re7 := regexp.MustCompile(`\.\d+\.`)
 
 	// отклонить при попытке после "." ввести /*-+
-	re7 := regexp.MustCompile(`\.\D`)
+	re8 := regexp.MustCompile(`\.\D`)
 
 	// не допускать NaN
-	re8 := regexp.MustCompile(`-?0/-?0[^.]`)
+	re9 := regexp.MustCompile(`-?0/-?0[^.]`)
+
+	// смысл после *0* или *0/ что-то вводить? всё равно же 0 в итоге
+	re10 := regexp.MustCompile(`\*0[*/]`)
 
 	if re1.MatchString(s) { return false }
 	if re2.MatchString(s) { return false }
@@ -54,6 +60,8 @@ func isValid(key rune) bool {
 	if re6.MatchString(s) { return false }
 	if re7.MatchString(s) { return false }
 	if re8.MatchString(s) { return false }
+	if re9.MatchString(s) { return false }
+	if re10.MatchString(s) { return false }
 
 	return true
 }

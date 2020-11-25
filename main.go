@@ -12,11 +12,8 @@ var (
 
 // Обработка ошибки
 func log_err(err error) {
-	_,err2 := fmt.Fprintf(logFile, "[%s]   %s\n",
+	_,_ = fmt.Fprintf(logFile, "[%s]   %s\n",
 		time.Now().Format("2006.01.02 15:04:05"), err.Error())
-	if err2 != nil {
-		fmt.Println(err2)
-	}
 	// звуковой сигнал
 	fmt.Printf("\a")
 }
@@ -24,11 +21,15 @@ func log_err(err error) {
 func main() {
 	// логирование
 	var err error
-	logFile,err = os.OpenFile("errors.txt", os.O_APPEND, os.ModeAppend);
+	logFile,err = os.OpenFile("console-calculator-errors.txt", os.O_APPEND, os.ModeAppend);
 	if err != nil {
-		logFile,_ = os.Create("errors.txt")
+		logFile,_ = os.Create("console-calculator-errors.txt")
 	}
 	defer logFile.Close()
+
+	for i:=0; i<20; i++ {
+		fmt.Println()
+	}
 
 	go_ui()
 }

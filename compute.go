@@ -7,13 +7,7 @@ import (
 	"strings"
 )
 
-// Найти количество знаков в дробной части
-func precition(f float64) int {
-	f = f - math.Trunc(f) // извлечь дробную часть
-	s := strconv.FormatFloat(f, 'f',10,64)
-	s = strings.TrimRight(s,"0")
-	return len(s)-2
-}
+var prec = 6 // сколько знаков в дробной части
 
 // Извлечь два числа, разделённые оператором
 // "a*b" → a (float64) и b (float64)
@@ -86,14 +80,19 @@ func compute() string {
 	// есть проблема: 10.0^11 * 10.0^11 даст 10000000000000000000000
 	//              а 10.0^11 * 10.0^12 даст 99999999999999991611392
 	// поэтому для больших чисел будет научная запись
-	if -math.Pow(10,15) < fl && fl < math.Pow(10,15) {
-		prec := precition(fl)
+	if -math.Pow(10,9) < fl && fl < math.Pow(10,9) {
+		prec2 := prec
 		if fl == math.Trunc(fl) {
-			prec = 0 // если целое, то показывать без дробной части
+			prec2 = 0 // если целое, то показывать без дробной части
 		}
-		s = strconv.FormatFloat(fl, 'f', prec,64)
+		s = strconv.FormatFloat(fl, 'f', prec2,64)
 	} else {
 		s = strconv.FormatFloat(fl, 'e',3,64)
+	}
+
+	// удалить нули в конце дробного числа
+	if strings.Contains(s, ".") {
+		s = strings.TrimRight(s, "0")
 	}
 
 	return s

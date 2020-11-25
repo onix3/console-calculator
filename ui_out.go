@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/jroimartin/gocui"
+	"regexp"
 	"strconv"
 )
 
@@ -15,9 +16,11 @@ func colorStr(s string, c1, c2 int) string {
 func updateVD(g *gocui.Gui) error {
 	vd.Clear()
 
+	//outE := addBrackets(dE) // замена на скобки
 	outE := ""
+	//fmt.Println(outE)
 	count := 0
-	for _,c := range dE {
+	for _,c := range addBrackets(dE) {
 		if c == '/' || c == '*' || c == '+' || c == '-' {
 			outE += colorStr(string(c),3,1)
 			count++
@@ -34,4 +37,15 @@ func updateVD(g *gocui.Gui) error {
 	fmt.Fprintf(vd, "%" + strconv.Itoa(dW+11) + "s", dR)
 
 	return nil
+}
+
+// Добавить скобки в выражение для удобочитаемости
+func addBrackets(s string) string{
+
+	// добавить скобки справа: из -3*-7 сделать -3*(-7)
+	ree := regexp.MustCompile(`[*/](-\d+\.\d+|-\d+\.?)`)
+	s = ree.ReplaceAllStringFunc(s,func(s string) string {
+		return string(s[0]) + "(" + s[1:] + ")"
+	})
+	return s
 }

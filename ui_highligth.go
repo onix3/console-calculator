@@ -8,7 +8,7 @@ import (
 // Подсветка кнопки при нажатии
 func highlight(key rune) {
 	for _,v := range g.Views() {
-		if v.Name() == string(key) {
+		if v.Name() == string(key) || v.Name() == "ac" {
 			go func() {
 				v.BgColor = gocui.ColorMagenta
 				time.Sleep(100*time.Millisecond)

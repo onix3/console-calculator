@@ -44,7 +44,7 @@ func go_ui() {
 	}
 
 	sx,sy = 3,2 // startX, startY
-	by := sy+4 // номер ряда по вертикали, с которого начинается панель кнопок
+	by := sy+7 // номер ряда по вертикали, с которого начинается панель кнопок
 	butt("7",sx+0, by);   butt("8",sx+5, by);    butt("9",sx+10, by);   butt("/",sx+15, by)
 	butt("4",sx+0, by+3); butt("5",sx+5, by+3);  butt("6",sx+10, by+3); butt("*",sx+15, by+3)
 	butt("1",sx+0, by+6); butt("2",sx+5, by+6);  butt("3",sx+10, by+6); butt("-",sx+15, by+6)
@@ -61,6 +61,16 @@ func go_ui() {
 		}
 	}
 
+	// кнопка AC. Также статичная, поэтому не в layout
+	ac,err := g.SetView("ac", sx-1, sy-1, sx+19+1, sy+3)
+	if err != nil && err != gocui.ErrUnknownView{
+		log_err(err)
+	}
+	ac.Frame = false
+	fmt.Fprintln(ac,colorStr("┌──────────────────┐",0,1))
+	fmt.Fprintln(ac,colorStr("│        AC        │",0,1))
+	fmt.Fprintln(ac,colorStr("└──────────────────┘",0,1))
+
 	initKeyboardBindings()
 	initMouseBindings()
 
@@ -69,16 +79,27 @@ func go_ui() {
 	}
 }
 
+func max(a,b int) int {
+	if a > b {
+		return a
+	} else {
+		return b
+	}
+}
+
 // Функция, вызываемая для перерисовки
 func layout(g *gocui.Gui) error {
+	// ширина дисплея подстраивается под длины строк
 	dW = 17
-	if len(dE) > 16 {
-		dW = len(dE)+1
+	dEb := addBrackets(dE)
+	max_len := max(len(dEb),len(compute()))
+	if max_len > 16 {
+		dW = max_len+1
 	}
 
 	// display объявляется в layout, поскольку постоянно обновляется, в отличие от статичных кнопок
 	var err error
-	vd,err = g.SetView("display", sx, sy, sx+1+dW+1, sy+3)
+	vd,err = g.SetView("display", sx, sy+3, sx+1+dW+1, sy+3+3)
 	if err != nil {
 		if err != gocui.ErrUnknownView {
 			log_err(err)
