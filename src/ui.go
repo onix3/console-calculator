@@ -1,4 +1,4 @@
-package main
+package src
 
 import (
 	"fmt"
@@ -15,7 +15,7 @@ var (
 )
 
 // Запустить интерфейс в консоли
-func go_ui() {
+func GoUI() {
 	var err error
 	if g,err = gocui.NewGui(gocui.OutputNormal); err != nil {
 		log.Panicln(err)
@@ -38,7 +38,7 @@ func go_ui() {
 		// Расширяю границы на 1, чтобы срабатывали и на рамке
 		v,err := g.SetView(s, x0-1, y0-1, x1+1, y0+2+1)
 		if err != nil && err != gocui.ErrUnknownView{
-			log_err(err)
+			IsErr(err)
 		}
 		v.Frame = false
 	}
@@ -56,15 +56,13 @@ func go_ui() {
 			s = "┌────────┐\n│   " + v.Name() + "    │\n└────────┘"
 		}
 		_,err = fmt.Fprint(v,s)
-		if err != nil {
-			log_err(err)
-		}
+		IsErr(err)
 	}
 
 	// кнопка AC. Также статичная, поэтому не в layout
 	ac,err := g.SetView("ac", sx-1, sy-1, sx+19+1, sy+3)
 	if err != nil && err != gocui.ErrUnknownView{
-		log_err(err)
+		LogErr(err)
 	}
 	ac.Frame = false
 	fmt.Fprintln(ac,colorStr("┌──────────────────┐",0,1))
@@ -102,13 +100,13 @@ func layout(g *gocui.Gui) error {
 	vd,err = g.SetView("display", sx, sy+3, sx+1+dW+1, sy+3+3)
 	if err != nil {
 		if err != gocui.ErrUnknownView {
-			log_err(err)
+			LogErr(err)
 		}
 	}
 
 	// рамка становится цветной только когда view в фокусе. Рамка дисплея в фокусе
 	if _,err := g.SetCurrentView("display"); err != nil {
-		log_err(err)
+		LogErr(err)
 	}
 
 	return nil

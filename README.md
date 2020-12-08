@@ -11,7 +11,7 @@ Execute:
 ```
 go get github.com/onix3/console-calculator
 ```
-You will find the executable file `console-calculator` in `$GOPATH/bin/`
+Also go to [Releases](https://github.com/onix3/console-calculator/releases) and try the executable file
 
 ## Usage
 

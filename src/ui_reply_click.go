@@ -1,4 +1,4 @@
-package main
+package src
 
 import (
 	"github.com/jroimartin/gocui"
@@ -38,7 +38,7 @@ func isValid(key rune) bool {
 	re5 := regexp.MustCompile(`[*/+-]0\d`)
 
 	// если в начале 0000021, то тоже не очень
-	re6 := regexp.MustCompile(`^00`)
+	re6 := regexp.MustCompile(`^0\d`)
 
 	// не допускать "0.0.", введение второй точки в дробное число
 	re7 := regexp.MustCompile(`\.\d+\.`)

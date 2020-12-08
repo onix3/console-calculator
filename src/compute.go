@@ -1,4 +1,4 @@
-package main
+package src
 
 import (
 	"math"
@@ -14,9 +14,7 @@ var prec = 6 // сколько знаков в дробной части
 func getNumbers(re *regexp.Regexp, s string) (numbers []float64) {
 	for _,numberString := range re.FindAllStringSubmatch(s,-1)[0][1:] {
 		n,err := strconv.ParseFloat(numberString, 64)
-		if err != nil {
-			log_err(err)
-		}
+		IsErr(err)
 		numbers = append(numbers,n)
 	}
 	return
@@ -73,7 +71,7 @@ func compute() string {
 	// вычисленное значение и его форматированный вывод
 	fl,err := strconv.ParseFloat(s,64)
 	if err != nil {
-		log_err(err)
+		LogErr(err)
 		return ""
 	}
 
